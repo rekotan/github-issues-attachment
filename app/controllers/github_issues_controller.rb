@@ -10,16 +10,16 @@ class GithubIssuesController < ApplicationController
   end
 
   def create
-    raise params.inspect
     @attachment_id = params[:attachment_id]
     at = Attachment.find(@attachment_id)
-    @issue = GithubIssue.new(params[:github_issues])
+    @issue = GithubIssue.new(params[:github_issue])
     client = Octokit::Client.new(:login => current_user.login, :oauth_token => current_user.access_token)
     begin
-      client.create_issue(@issue.repo, @issue.title, @issue.body)
-      at.update_column(:issue_id, @issue.id)
+      issue = client.create_issue(@issue.repo, @issue.title, @issue.body)
+      at.update_column(:issue_id, issue.id)
       redirect_to attachments_path, :notice => 'Github Issue successfully created'
-    rescue
+    rescue => e
+      Rails.logger.error e.inspect
       redirect_to attachments_path, :alert => 'Failed to create Github Issue'
     end
   end

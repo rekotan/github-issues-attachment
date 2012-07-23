@@ -14,10 +14,13 @@
         %tr
           %td= at.id
           %td= at.file.url
+          %td= link_to image_tag(at.file :thumb), at.file.url
+          %td= link_to 'Issue', new_github_issue_path(:attachment_id => at.id),
+            :class => 'btn btn-info'
           %td
             %span.btn.btn-primary{:id=>"copy-button-#{at.id}"} Copy
             :javascript
-              clip = new ZeroClipboard.Client();
+              var clip = new ZeroClipboard.Client();
               clip.setText('#{at.file.url}');
               clip.glue('copy-button-#{at.id}');
               clip.addEventListener('onComplete', function() {
@@ -26,7 +29,4 @@
                   $('#copy-button-#{at.id}').text('Copy');
                 }, 1000);
               });
-          %td= link_to 'New Issue', new_github_issue_path(:attachment_id => at.id),
-            :class => 'btn btn-info'
-          %td= link_to image_tag(at.file :thumb), at.file.url
 
