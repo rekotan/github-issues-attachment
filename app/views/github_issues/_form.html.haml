@@ -1,0 +1,11 @@
+= form_for @issue, :html => {:class => 'well form-horizontal'} do |f|
+  = hidden_field_tag :attachment_id, @attachment_id
+  = f.hidden_field :repo
+  %fieldset
+    .control-group
+      .control-label= f.label :title
+      .controls= f.text_field :title, :cols => 50, :style => 'width:80%'
+    .control-group
+      .control-label= f.label :body
+      .controls= f.text_area :body, :cols => 50, :style => 'width:80%'
+    .form-actions= f.button 'Create', :class => 'btn btn-primary'

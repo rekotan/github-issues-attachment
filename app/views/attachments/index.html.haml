@@ -1,0 +1,32 @@
+%h1 Attachments
+= link_to 'New', new_attachment_path, :class => 'btn btn-primary btn-large btn-toolbar pull-right'
+.row
+  %table.table.table-striped.table-bordered
+    %thead
+      %tr
+        %th ID
+        %th URL
+        %th
+        %th
+        %th
+    %tbody
+      - @attachments.each do |at|
+        %tr
+          %td= at.id
+          %td= at.file.url
+          %td
+            %span.btn.btn-primary{:id=>"copy-button-#{at.id}"} Copy
+            :javascript
+              clip = new ZeroClipboard.Client();
+              clip.setText('#{at.file.url}');
+              clip.glue('copy-button-#{at.id}');
+              clip.addEventListener('onComplete', function() {
+                $('#copy-button-#{at.id}').text('Copied');
+                setTimeout(function() {
+                  $('#copy-button-#{at.id}').text('Copy');
+                }, 1000);
+              });
+          %td= link_to 'New Issue', new_github_issue_path(:attachment_id => at.id),
+            :class => 'btn btn-info'
+          %td= link_to image_tag(at.file :thumb), at.file.url
+
