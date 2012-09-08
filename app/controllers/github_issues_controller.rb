@@ -5,7 +5,7 @@ class GithubIssuesController < ApplicationController
     @attachment_id = params[:attachment_id]
     at = Attachment.find(@attachment_id)
     @issue = GithubIssue.new
-    @issue.repo = ENV['CHECK_REPO'] #sucks
+    @issue.repo = ENV['TARGET_REPO']
     @issue.body = "![image](#{at.file.url})"
   end
 

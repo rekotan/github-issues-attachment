@@ -8,7 +8,7 @@ class Attachment < ActiveRecord::Base
         :storage => :s3,
         :s3_credentials => Rails.root.join("config", "s3.yml"),
         :path => ':attachment/:id/:access_token/:style.:extension',
-        :bucket => 'charmroom_attachment',
+        :bucket => ENV['S3_BUCKET'],
         :styles => {:medium => "300x300>", :thumb => "100x100>"}
       }
     else

@@ -11,10 +11,10 @@ class UsersController < ApplicationController
                                                            :login => login)
       session[:user_id] = user.id
       session[:access_token] = user.access_token
-      if ENV['CHECK_REPO']
+      if ENV['TARGET_REPO']
         client = Octokit::Client.new(:login => user.login, :oauth_token => user.access_token)
         begin
-          client.repo(ENV['CHECK_REPO'])
+          client.repo(ENV['TARGET_REPO'])
           redirect_to attachments_path, :notice => "Successfully logged in"
         rescue
           session[:user_id] = nil
